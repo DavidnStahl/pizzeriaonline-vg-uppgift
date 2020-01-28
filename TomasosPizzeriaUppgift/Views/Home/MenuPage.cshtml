@@ -1,0 +1,74 @@
+﻿@model TomasosPizzeriaUppgift.ViewModels.MenuPage
+@{
+    var buttonactionlist = new List<Matratt>();
+
+    
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" asp-append-version="true" />
+<link rel="stylesheet" href="~/lib/jquery/dist/jquery.min.js" asp-append-version="true" />
+<link href="~/css/MenuPage.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+
+<div class="d-flex justify-content-center">
+
+    <div id="menudiv">
+        <h2>Tomasos Pizzeria Meny</h2>
+
+        <section class="menu-items">
+            @foreach (var matrratttyp in Model.mattratttyper)
+            {
+
+                <hr />
+                <h4>@matrratttyp.Beskrivning</h4>
+                <br />
+                @foreach (var matratt in Model.Matratter)
+                {
+
+                    if (matratt.MatrattTypNavigation.Beskrivning == @matrratttyp.Beskrivning)
+                    {
+                        <h5>@matratt.MatrattNamn</h5>
+                        <br />
+                        <label>Ingredienser: </label>
+                        foreach (var ingrediens in Model.Ingredins.MatrattProdukt)
+                        {
+                            if (ingrediens.MatrattId == matratt.MatrattId)
+                            {
+                                <label>&nbsp @ingrediens.Produkt.ProduktNamn,</label>
+                            }
+                        }
+                        <br />
+                        <label>Pris:&nbspKr @matratt.Pris</label>
+                        <br />
+
+                        <a type="button" class="btn btn-success" asp-action="CustomerBasket" asp-controller="Home" asp-route-id="@matratt.MatrattId"
+                           data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#partialview">Lägg till</a>
+                        <br />
+                        <br />
+                        <br />
+                    }
+
+                }
+            }
+
+        </section>
+
+    </div>
+    
+    <div id="customerbasket">
+        <h3 class="addhere">Beställning:</h3>
+
+        <div class="text-center" id="partialview">
+            @await Html.PartialAsync("_MenuPage")
+        </div>
+    </div>
+    
+
+
+</div>
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

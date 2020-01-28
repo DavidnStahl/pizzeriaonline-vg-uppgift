@@ -1,0 +1,18 @@
+﻿@model TomasosPizzeriaUppgift.Models.Kund
+@{
+
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+<link href="~/css/inloggPageStyle.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+<link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
+<div class="text-center">
+
+    <form class="login" asp-controller="Home" asp-action="PaymentLogginValidation" method="post">
+        <h2>@ViewBag.Message</h2>
+
+        <input type="text" placeholder="Användarnamn" asp-for="@Model.AnvandarNamn">
+        <input type="password" placeholder="Lösenord" asp-for="@Model.Losenord">
+        <input class="button" type="submit" value="Logga in" />
+    </form>
+
+</div>

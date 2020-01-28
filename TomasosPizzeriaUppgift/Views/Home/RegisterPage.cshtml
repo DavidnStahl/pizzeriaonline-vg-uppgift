@@ -1,0 +1,51 @@
+﻿@model TomasosPizzeriaUppgift.Models.Kund
+
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+<link href="~/css/registerPage.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+<div class="container">
+    <form id="signup" asp-controller="Home" asp-action="RegisterUser" method="post">
+
+        <div class="header">
+
+            <h3>Registrera dig</h3>
+
+            <p>Fyll i din personliga information</p>
+
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="inputs">
+            <span asp-validation-for="@Model.Namn"></span>
+            <input type="text" placeholder="Namn" autofocus maxlength="100" asp-for="@Model.Namn" />
+            <span asp-validation-for="@Model.Gatuadress"></span>
+            <input type="text" placeholder="*Gatuadress" maxlength="50" asp-for="@Model.Gatuadress" />
+            <span asp-validation-for="@Model.Postnr"></span>
+            <input type="text" placeholder="*Postnr" maxlength="20" asp-for="@Model.Postnr" />
+            <span asp-validation-for="@Model.Postort"></span>
+            <input type="text" placeholder="*Postort" maxlength="100" asp-for="@Model.Postort" />
+
+            <input type="text" placeholder="Email (Optional)" maxlength="50" asp-for="@Model.Email" />
+
+            <input type="text" placeholder="Telefon (Optional)" maxlength="50" asp-for="@Model.Telefon" />
+            @if (ViewBag.Message == "Användarnamn Upptaget")
+            {
+                <span asp-validation-for="@Model.AnvandarNamn"></span>
+                <input class="wrong-password" type="text" value="@ViewBag.Message" maxlength="20" asp-for="@Model.AnvandarNamn" />
+            }
+            else
+            {
+                <span asp-validation-for="@Model.AnvandarNamn"></span>
+                <input type="text" placeholder="*Användarnamn" maxlength="20" asp-for="@Model.AnvandarNamn" />
+            }
+            <span asp-validation-for="@Model.Losenord"></span>
+            <input type="password" placeholder="*Lösenord" maxlength="20" asp-for="@Model.Losenord" />
+
+            <input id="submit" type="submit" value="Registrera dig" />
+
+        </div>
+
+    </form>
+
+</div>

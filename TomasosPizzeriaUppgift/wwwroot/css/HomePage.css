@@ -1,0 +1,14 @@
+﻿body {
+    
+    font-family: "Helvetica Neue", Helvetica, Arial;
+}
+
+.container-homepage {
+    color: black;
+    font: bold;
+    background-color: navajowhite;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 20px;
+    border: none;
+}
