@@ -10,8 +10,7 @@ using TomasosPizzeriaUppgift.ViewModels;
 using TomasosPizzeriaUppgift.Services;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace TomasosPizzeriaUppgift.Controllers
 {
@@ -26,12 +25,11 @@ namespace TomasosPizzeriaUppgift.Controllers
         public IActionResult MenuPage()
         {
             ViewBag.Layout = Services.Services.Instance.CheckIfInlogged(Request);
-            var model = Services.Services.Instance.GetMenuInfo();
             var id = Services.Services.Instance.GetCustomerIDCache(Request);
             if (id != 0)
             {
                 
-                model = Services.Services.Instance.MenuPageData(id,Request,Response);
+                var model = Services.Services.Instance.MenuPageData(id,Request,Response);
                 return View(model);
             }
             else
@@ -85,7 +83,7 @@ namespace TomasosPizzeriaUppgift.Controllers
         {
             ViewBag.Layout = Services.Services.Instance.CheckIfInlogged(Request);
             var id = Services.Services.Instance.GetCustomerIDCache(Request);
-            var valid = Services.Services.Instance.CheckUserNameIsValid(user,Request,Response);
+            var valid = Services.Services.Instance.CheckUserNameIsValid(user,Request);
             if (ModelState.IsValid && valid == true)
             {               
                 ModelState.Clear();

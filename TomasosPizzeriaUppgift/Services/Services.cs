@@ -51,11 +51,6 @@ namespace TomasosPizzeriaUppgift.Services
 
 
         }
-
-        public void SetInloggedCustomer(Kund customer)
-        {
-
-        }
         public Kund GetById(int id)
         {
             return _repository.GetById(id);
@@ -143,7 +138,7 @@ namespace TomasosPizzeriaUppgift.Services
             var menumodel = SetMatratterCacheList(matratteradded, request, response);
             return menumodel;
         }
-        public bool CheckUserNameIsValid(Kund user, HttpRequest request, HttpResponse response)
+        public bool CheckUserNameIsValid(Kund user, HttpRequest request)
         {
             var customer = CheckUserName(user);
             var customerid = GetCustomerIDCache(request);

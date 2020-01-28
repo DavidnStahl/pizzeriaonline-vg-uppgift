@@ -1,10 +1,11 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace TomasosPizzeriaUppgift.Models
 {
-    public partial class TomasosContext : DbContext
+    public partial class TomasosContext : IdentityDbContext
     {
         public TomasosContext()
         {
@@ -34,6 +35,7 @@ namespace TomasosPizzeriaUppgift.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Bestallning>(entity =>
             {
                 entity.Property(e => e.BestallningId).HasColumnName("BestallningID");
