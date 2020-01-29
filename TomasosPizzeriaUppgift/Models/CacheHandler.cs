@@ -32,6 +32,11 @@ namespace TomasosPizzeriaUppgift.Models
             }
             return matratteradded;
         }
+        public void DeleteFoodListCache(HttpRequest request, HttpResponse response)
+        {
+            
+            response.Cookies.Delete("cookie_matratter");         
+        }
 
         public void SetCustomerCache(Kund kund, HttpRequest request, HttpResponse response)
         {
@@ -40,7 +45,7 @@ namespace TomasosPizzeriaUppgift.Models
                 response.Cookies.Delete(cookieKey);
             }
             CookieOptions options = new CookieOptions();
-            options.Expires = DateTime.Now.AddMinutes(10);
+            options.Expires = DateTime.Now.AddMinutes(20);
             options.HttpOnly = true;
             response.Cookies.Append("cookie_customer", kund.KundId.ToString(), options);
         }
@@ -49,7 +54,7 @@ namespace TomasosPizzeriaUppgift.Models
 
             string json = JsonConvert.SerializeObject(matratteradded, Formatting.Indented);
             CookieOptions options = new CookieOptions();
-            options.Expires = DateTime.Now.AddMinutes(10);
+            options.Expires = DateTime.Now.AddMinutes(20);
             options.HttpOnly = true;
             response.Cookies.Append("cookie_matratter", json, options);
 

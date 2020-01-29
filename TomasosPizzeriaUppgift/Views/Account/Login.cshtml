@@ -1,0 +1,29 @@
+﻿@model LoginViewModel
+
+@{
+    ViewBag.Title = "Kund Inloggning";
+}
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+<link href="~/css/inloggPageStyle.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+<link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
+<div class="text-center">
+    
+    <form class="login" asp-controller="Account" asp-action="Login" method="post">
+        <h2>Kund Inloggning</h2>
+        <span class="failer-login">@ViewBag.Error</span>
+        <span class="failer-login" asp-validation-for="Username"></span>
+        <input type="text" placeholder="Användarnamn" asp-for="Username">
+        <span class="failer-login" asp-validation-for="Password"></span>
+        <input type="password" placeholder="Lösenord" asp-for="Password">
+        <div class="custom-checkbox">
+            <label asp-for="RememberMe">
+                <input asp-for="RememberMe" />
+                @Html.DisplayNameFor(m => m.RememberMe)
+            </label>
+        </div>
+        <input class="button" type="submit" value="Logga in" />
+    </form>
+
+</div>
+

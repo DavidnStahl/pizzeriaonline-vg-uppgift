@@ -1,4 +1,5 @@
 ﻿
+@inject SignInManager<IdentityUser> signInManager;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,39 +7,59 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Tomasos Pizzeria</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+
     <link rel="stylesheet" href="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/jquery/dist/jquery.min.js" asp-append-version="true" />
 
     <link rel="stylesheet" href="~/lib/jquery/dist/jquery.min.js" asp-append-version="true" />
-    <link href="~/css/MenuPage.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+
+    
 </head>
 <body>
-    <nav>
+    <nav class=" setmargintop navbar navbar-expand-md navbar-dark">
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-white" asp-controller="Home" asp-action="Index">Hem</a>
+                </li>
+                @if (signInManager.IsSignedIn(User))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="Menu" asp-action="Menu">Meny</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul class="navbar-nav ml-auto">
+                @if (signInManager.IsSignedIn(User))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link  text-white" asp-controller="Account" asp-action="Update">Kundinfo</a>
+                    </li>
 
-        <ul>
-            <li class="left-navigation"><a asp-area="" asp-controller="Home" asp-action="HomePage">Tomasos Pizzeria</a></li>
-            @if (ViewBag.Layout == "Inloggad")
-            {
-                <li class="left-navigation"><a asp-area="" asp-controller="Home" asp-action="MenuPage">Meny</a></li>
-            }
+                    <li class="nav-item">
+                        <form method="post" asp-action="logout" asp-controller="account">
+                        <button type="submit" class="nav-link btn btn-link navbar-text text-warning" asp-controller="Account" asp-action="Logout">Logga ut @User.Identity.Name</button>
+                        </form>
+                    </li>
 
-            @if (ViewBag.Layout != "Inloggad")
-            {
-                <li class="right-navigation"><a asp-area="" asp-controller="Home" asp-action="RegisterPage">Registrera</a></li>
-                <li class="right-navigation"><a asp-area="" asp-controller="Home" asp-action="LoginPage">Logga in</a></li>
-            }
-
-            @if (ViewBag.layout == "Inloggad")
-            {
-                <li class="right-navigation"><a asp-area="" asp-controller="Home" asp-action="LogOut">Logga ut</a></li>
-                <li class="right-navigation"><a asp-area="" asp-controller="Home" asp-action="CustomerInfoPage">Kund Info</a></li>
-            }
-
-        </ul>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="Account" asp-action="Login">Logga in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Register">Registrering</a>
+                    </li>
+                }
+            </ul>
+        </div>
     </nav>
-    <div class="container container-views">
+    <div class="container" id="container-views">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

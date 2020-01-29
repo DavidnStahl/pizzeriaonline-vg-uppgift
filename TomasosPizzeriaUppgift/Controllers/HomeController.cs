@@ -11,25 +11,25 @@ using TomasosPizzeriaUppgift.Services;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace TomasosPizzeriaUppgift.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult HomePage()
+        public IActionResult Index()
         {
-            ViewBag.Layout = Services.Services.Instance.CheckIfInlogged(Request);
             return View();
         }
 
-        public IActionResult MenuPage()
+        /*public IActionResult MenuPage()
         {
             ViewBag.Layout = Services.Services.Instance.CheckIfInlogged(Request);
             var id = Services.Services.Instance.GetCustomerIDCache(Request);
             if (id != 0)
             {
                 
-                var model = Services.Services.Instance.MenuPageData(id,Request,Response);
+                var model = Services.Services.Instance.MenuPageData(Request,Response);
                 return View(model);
             }
             else
@@ -38,8 +38,8 @@ namespace TomasosPizzeriaUppgift.Controllers
             }
             
             
-        }
-        public IActionResult RegisterPage()
+        }*/
+        /*public IActionResult RegisterPage()
         {
             ViewBag.Layout = Services.Services.Instance.CheckIfInlogged(Request);
             ViewBag.Message = "Din personliga information";
@@ -61,10 +61,10 @@ namespace TomasosPizzeriaUppgift.Controllers
                 ViewBag.Message = "Användarnamn Upptaget";
                 return View(nameof(RegisterPage));
             }
-        }
+        }*/
         
        
-        public ActionResult CustomerInfoPage()
+        /*public ActionResult CustomerInfoPage()
         {
             ViewBag.Layout = Services.Services.Instance.CheckIfInlogged(Request);
             var id = Services.Services.Instance.GetCustomerIDCache(Request);
@@ -75,9 +75,9 @@ namespace TomasosPizzeriaUppgift.Controllers
             var customer = Services.Services.Instance.GetById(id);
             ViewBag.Message = "Din personliga information";
             return View(customer);
-        }
+        }*/
 
-        [HttpPost]
+        /*[HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult UpdateUser(Kund user)
         {
@@ -87,7 +87,7 @@ namespace TomasosPizzeriaUppgift.Controllers
             if (ModelState.IsValid && valid == true)
             {               
                 ModelState.Clear();
-                Services.Services.Instance.UpdateUser(user, id);
+                Services.Services.Instance.UpdateUser(user, id, Request,Response);
                 return RedirectToAction("CustomerInfoPage");
             }
             else if(ModelState.IsValid && valid == false)
@@ -101,7 +101,8 @@ namespace TomasosPizzeriaUppgift.Controllers
                 return View(nameof(CustomerInfoPage));
             }
         }
-        public IActionResult LoginPage()
+        */
+        /*public IActionResult LoginPage()
         {
             ViewBag.Layout = Services.Services.Instance.CheckIfInlogged(Request);
             ViewBag.Message = "Var vänlig logga in";
@@ -112,8 +113,8 @@ namespace TomasosPizzeriaUppgift.Controllers
             Services.Services.Instance.ResetCookie(Request, Response);
             return RedirectToAction("LoginPage");
         }
-        [HttpPost]
-        public IActionResult UserLogginValidation(Kund customer)
+
+        /*public IActionResult UserLogginValidation(Kund customer)
         {
 
             var kund = Services.Services.Instance.GetUserId(customer);
@@ -128,8 +129,9 @@ namespace TomasosPizzeriaUppgift.Controllers
                 return View(nameof(LoginPage));
             };
         }
+        */
 
-        public ActionResult RemoveItemCustomerBasket(int id, int count)
+        /*public ActionResult RemoveItemCustomerBasket(int id, int count)
         {
             ViewBag.Layout = Services.Services.Instance.CheckIfInlogged(Request);
             var model = Services.Services.Instance.RemoveItemCustomerBasket(id,count, Request, Response);
@@ -138,17 +140,17 @@ namespace TomasosPizzeriaUppgift.Controllers
 
         public ActionResult CustomerBasket(int id)
         {
-            ViewBag.Layout = Services.Services.Instance.CheckIfInlogged(Request);
             var model = Services.Services.Instance.CustomerBasket(id, Request, Response);
-            return PartialView("MenuPage", model);
+            return PartialView("Menu", model);
         }
-        public ActionResult PaymentLoggin()
+        */
+        /*public ActionResult PaymentLoggin()
         {
             ViewBag.Message = "Logga in, för att betala";
             ViewBag.Layout = Services.Services.Instance.CheckIfInlogged(Request);
             return View();
-        }
-        [HttpPost]
+        }*/
+        /*[HttpPost]
         public ActionResult PaymentLogginValidation(Kund customer)
         {
             var cust = Services.Services.Instance.GetUserId(customer);
@@ -170,11 +172,12 @@ namespace TomasosPizzeriaUppgift.Controllers
             ViewBag.Layout = Services.Services.Instance.CheckIfInlogged(Request);
             return View(model);
         }
-        public ActionResult PayUser()
+        */
+        /*public ActionResult PayUser()
         {
             ViewBag.Layout = Services.Services.Instance.CheckIfInlogged(Request);
             Services.Services.Instance.PayUser(Request, Response);
             return View();
-        }
+        }*/
     }
 }

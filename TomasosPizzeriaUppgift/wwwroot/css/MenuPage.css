@@ -1,5 +1,5 @@
 ﻿body {
-    margin-top: inherit;
+
 }
 h2 {
     text-align: center;
@@ -14,11 +14,12 @@ h4 {
 .setcenter{
     text-align:center;
 }
+
 #menudiv {
     text-align: center;
     color: red;
     font: bold;
-    width: 60%;
+    width: 70%;
     height: 100%;
     background-color: ghostwhite;
     -moz-border-radius: 3px;
@@ -28,14 +29,33 @@ h4 {
     border-color: red;
 }
 
+.big-container {
+    margin-top: 5%;
+
+}
 .menu-items {
-    margin-top: 10%;
+    margin-top: 3%;
+    
+}
+.pay-text {
+    margin-top: 5%;
+    text-align: center;
+    color: red;
+    font: bold;
+    width: 70%;
+    height: 100%;
+    background-color: ghostwhite;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 20px;
+    border-style: solid;
+    border-color: red;
 }
 #customerbasket {
+
     color: red;
     font: bold;
     width: 50%;
-    
     height: 100%;
     background-color: ghostwhite;
     -moz-border-radius: 3px;

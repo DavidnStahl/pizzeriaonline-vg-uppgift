@@ -1,0 +1,81 @@
+﻿@model MenuPage
+
+@{
+    var totalpris = 0;
+    var itemcount = 0;
+
+
+
+}
+ <link href="~/css/MenuPage.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+<table id="updatetable" class="table table-borderless table-css">
+    <thead>
+        <tr>
+            <th scope="col">Maträtt typ</th>
+            <th scope="col">Maträtt</th>
+            <th scope="col">Pris</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Matratteradded)
+        {
+
+
+            totalpris += item.Pris;
+
+            <tr>
+                @if (item.Pris != 0)
+                {
+                    <td>@Model.mattratttyper[@item.MatrattTyp - 1].Beskrivning</td>
+                    <td>@item.MatrattNamn</td>
+
+                    <td>@item.Pris</td>
+                    <td type="button" class="btn btn-danger text-white">
+                        @Html.ActionLink("Ta bort", "RemoveItemCustomerBasket", "Menu", new { id = item.MatrattId, count = itemcount }, null)
+                    </td>
+                }
+
+            </tr>
+            itemcount++;
+
+        }
+
+    </tbody>
+</table>
+
+<br />
+
+
+@if (totalpris != 0)
+{
+    <hr />
+    <table class="table table-borderless table-css">
+        <thead>
+            <tr>
+
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+
+                    <label>Totalpris: @totalpris Kr</label>
+                </td>
+                <td class="btn .btn-sm btn-success">@Html.ActionLink("Betala", "Login", "Payment", null, null)</td>
+
+            </tr>
+
+        </tbody>
+    </table>
+
+}
+
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
+
+

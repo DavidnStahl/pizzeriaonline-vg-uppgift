@@ -2,17 +2,16 @@
 @{
     var buttonactionlist = new List<Matratt>();
 
-    
+
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
 
-<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
-<link rel="stylesheet" href="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" asp-append-version="true" />
-<link rel="stylesheet" href="~/lib/jquery/dist/jquery.min.js" asp-append-version="true" />
+
 <link href="~/css/MenuPage.css" rel="stylesheet" type="text/css" asp-append-version="true" />
 
-<div class="d-flex justify-content-center">
+
+<div class="d-flex justify-content-center big-container">
 
     <div id="menudiv">
         <h2>Tomasos Pizzeria Meny</h2>
@@ -43,7 +42,7 @@
                         <label>Pris:&nbspKr @matratt.Pris</label>
                         <br />
 
-                        <a type="button" class="btn btn-success" asp-action="CustomerBasket" asp-controller="Home" asp-route-id="@matratt.MatrattId"
+                        <a type="button" class="btn btn-success" asp-action="AddItemCustomerBasket" asp-controller="Menu" asp-route-id="@matratt.MatrattId"
                            data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#partialview">Lägg till</a>
                         <br />
                         <br />
@@ -56,15 +55,15 @@
         </section>
 
     </div>
-    
+
     <div id="customerbasket">
         <h3 class="addhere">Beställning:</h3>
 
         <div class="text-center" id="partialview">
-            @await Html.PartialAsync("_MenuPage")
+            @await Html.PartialAsync("_Menu")
         </div>
     </div>
-    
+
 
 
 </div>

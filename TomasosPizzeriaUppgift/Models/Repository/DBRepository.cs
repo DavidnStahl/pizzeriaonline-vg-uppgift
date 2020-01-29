@@ -20,6 +20,15 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             return model;
                 
         }
+        public Kund CheckCustomerUsernamePassword(LoginViewModel model)
+        {
+            var customer = new Kund();
+            using (TomasosContext db = new TomasosContext())
+            {
+                customer = db.Kund.FirstOrDefault(c => c.AnvandarNamn == model.Username && c.Losenord == model.Password);
+            }
+            return customer;
+        }
         public MenuPage GetMenuInfo()
         {
             var model = new MenuPage();
@@ -173,7 +182,16 @@ namespace TomasosPizzeriaUppgift.Models.Repository
             }
             return kund;
         }
-        
+
+        public Kund GetCustomerByUsername(string username)
+        {
+            var kund = new Kund();
+            using (TomasosContext db = new TomasosContext())
+            {
+                kund = db.Kund.FirstOrDefault(r => r.AnvandarNamn == username);
+            }
+            return kund;
+        }
     }
 
 }

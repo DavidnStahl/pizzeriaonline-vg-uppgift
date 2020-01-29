@@ -16,10 +16,11 @@ namespace TomasosPizzeriaUppgift.Interface
         Matratt GetMatratterToCustomerbasket(int id);
         void SaveOrder(List<Matratt> matratter, int userid);
         int GetTotalPayment(List<Matratt> matratter);
-
+        Kund GetCustomerByUsername(string username);
         void SaveBestallningMatratter(List<Matratt> matratter);
         void UpdateUser(Kund user, int userid);
         List<MatrattTyp> GetMatrattTyper();
         Kund CheckUserName(Kund customer);
+        Kund CheckCustomerUsernamePassword(LoginViewModel model);
     }
 }

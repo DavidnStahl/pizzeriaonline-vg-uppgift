@@ -17,5 +17,6 @@ namespace TomasosPizzeriaUppgift.Interface
         void ResetCookie(HttpRequest request, HttpResponse response);
         List<Matratt> PayUser(HttpRequest request, HttpResponse response);
         List<Matratt> GetMatratterToPay(HttpRequest request, HttpResponse response);
+        void DeleteFoodListCache(HttpRequest request, HttpResponse response);
     }
 }

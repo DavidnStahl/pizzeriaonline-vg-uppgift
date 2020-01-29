@@ -47,6 +47,7 @@ namespace TomasosPizzeriaUppgift
                 options.Password.RequireUppercase = false;
 
             }).AddEntityFrameworkStores<TomasosContext>();
+            services.AddControllersWithViews();
 
 
 
@@ -68,14 +69,14 @@ namespace TomasosPizzeriaUppgift
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=HomePage}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
