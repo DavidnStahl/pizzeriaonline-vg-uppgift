@@ -40,7 +40,7 @@
             @if (ViewBag.Message == "Användarnamn Upptaget")
             {
                 <span asp-validation-for="@Model.AnvandarNamn"></span>
-                <input class="wrong-password" type="text" value="@ViewBag.Message" maxlength="20" asp-for="@Model.AnvandarNamn" />
+                <input class="used-username" type="text" value="@ViewBag.Message" maxlength="20" asp-for="@Model.AnvandarNamn" />
             }
             else
             {

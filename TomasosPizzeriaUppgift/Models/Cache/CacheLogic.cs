@@ -9,7 +9,7 @@ using TomasosPizzeriaUppgift.ViewModels;
 
 namespace TomasosPizzeriaUppgift.Models
 {
-    public class CacheHandler : ICache
+    public class CacheLogic : ICache
     {
         public int GetCustomerIDCache(HttpRequest request)
         {
