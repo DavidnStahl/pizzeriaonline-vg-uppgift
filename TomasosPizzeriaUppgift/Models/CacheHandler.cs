@@ -37,13 +37,18 @@ namespace TomasosPizzeriaUppgift.Models
             
             response.Cookies.Delete("cookie_matratter");         
         }
+        
 
         public void SetCustomerCache(Kund kund, HttpRequest request, HttpResponse response)
         {
-            foreach (var cookieKey in request.Cookies.Keys)
+            if(request.Cookies != null)
             {
-                response.Cookies.Delete(cookieKey);
+                foreach (var cookieKey in request.Cookies.Keys)
+                {
+                    response.Cookies.Delete(cookieKey);
+                }
             }
+            
             CookieOptions options = new CookieOptions();
             options.Expires = DateTime.Now.AddMinutes(20);
             options.HttpOnly = true;

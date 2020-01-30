@@ -76,7 +76,6 @@ namespace TomasosPizzeriaUppgift.Services
         }
         public void UpdateUser(Kund user, int userid, HttpRequest request, HttpResponse response)
         {
-            _cache.SetCustomerCache(user, request, response);
             _repository.UpdateUser(user, userid);
         }
         public List<MatrattTyp> GetMatratttyper()
@@ -96,7 +95,7 @@ namespace TomasosPizzeriaUppgift.Services
         {
             return _cache.GetCustomerIDCache(Request);
         }
-
+        
         public void SetCustomerCache(LoginViewModel model, HttpRequest request, HttpResponse response)
         {
             var customer = _repository.GetCustomerByUsername(model.Username);

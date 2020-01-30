@@ -42,15 +42,21 @@ namespace TomasosPizzeriaUppgift.Controllers
                 var user = new IdentityUser { UserName = model.AnvandarNamn, NormalizedUserName = model.AnvandarNamn };
                 var result = await userManager.CreateAsync(user, model.Losenord);
 
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
+                    var loginmodel = new LoginViewModel();
+                    loginmodel.Username = model.AnvandarNamn;
+                    loginmodel.Password = model.Namn;
                     Services.Services.Instance.SaveUser(model);
+                    Services.Services.Instance.SetCustomerCache(loginmodel, Request, Response);
+                    
                     await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
             }
             return View(model);
         }
+        
         [HttpGet]
         public IActionResult Login()
         {
@@ -75,6 +81,22 @@ namespace TomasosPizzeriaUppgift.Controllers
             ViewBag.Error = "Inloggning Misslyckades";
             return View(model);
         }
+        public async Task<IActionResult> KeepCustomerLoggedIn(LoginViewModel model)
+        {
+            
+                var result = await signInManager.PasswordSignInAsync(model.Username, model.Password,
+                                           model.RememberMe, false);
+
+                if (result.Succeeded)
+                {
+                    Services.Services.Instance.SetCustomerCache(model, Request, Response);
+                    return RedirectToAction("index", "home");
+                }
+            
+            ViewBag.Error = "Inloggning Misslyckades";
+            return View("Login");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
@@ -82,130 +104,61 @@ namespace TomasosPizzeriaUppgift.Controllers
             return RedirectToAction("index", "home");
         }
         [Authorize]
+        [HttpGet]
         public ActionResult Update()
         {
             var customer = Services.Services.Instance.GetInloggedCustomerInfo(Request);
             ViewBag.Message = "Din personliga information";
             return View(customer);
         }
-        /*[HttpPost]
+    
+        [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> UpdateUser(Kund user)
-        {
-
-            var id = Services.Services.Instance.GetCustomerIDCache(Request);
-            var valid = Services.Services.Instance.CheckUserNameIsValid(user, Request);
-            
-            if (ModelState.IsValid && valid == true)
-            {
-                var customerinlogged = Services.Services.Instance.GetInloggedCustomerInfo(Request);
-                var inloggeduser = await userManager.FindByNameAsync(User.Identity.Name);
-
-                var resultPasswordChange = await userManager.ChangePasswordAsync(inloggeduser, customerinlogged.Losenord, user.Losenord);
-                
-                await userManager.UpdateNormalizedUserNameAsync(inloggeduser);
-                await signInManager.RefreshSignInAsync(inloggeduser);
-                ModelState.Clear();
-                Services.Services.Instance.UpdateUser(user, id, Request, Response);
-                var customer = Services.Services.Instance.GetById(id);
-                return View(nameof(Update), customer);
-               
-
-                
-            }
-            else if (ModelState.IsValid && valid == false)
-            {
-                ViewBag.Message = "Användarnamn Upptaget";
-                var customer = Services.Services.Instance.GetById(id);
-                return View(nameof(Update), customer);
-            }
-            else
-            {
-                return View(nameof(Update));
-            }
-        }*/
-    [HttpPost]
-    [Authorize]
-    [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateUser(Kund user)
+        public async Task<IActionResult> UpdateUser(Kund model)
         {
 
         var id = Services.Services.Instance.GetCustomerIDCache(Request);
-        var valid = Services.Services.Instance.CheckUserNameIsValid(user, Request);
+        var valid = Services.Services.Instance.CheckUserNameIsValid(model, Request);
+        var customer = Services.Services.Instance.GetInloggedCustomerInfo(Request);
 
         if (ModelState.IsValid && valid == true)
         {
 
-            IdentityUser identityuser = await userManager.GetUserAsync(User);
-            var result = await userManager.DeleteAsync(identityuser);
-            if(result.Succeeded)
-             {
-                    var iuser = new IdentityUser { UserName = user.AnvandarNamn, NormalizedUserName = user.AnvandarNamn };
-                    var r = await userManager.CreateAsync(iuser, user.Losenord);
-
-                    if (r.Succeeded)
+            var identityuser = await userManager.GetUserAsync(User);
+            if(customer.Losenord != model.Losenord || customer.AnvandarNamn != model.AnvandarNamn)
+            {
+                    identityuser.UserName = model.AnvandarNamn;
+                    await userManager.UpdateNormalizedUserNameAsync(identityuser);
+                    var result = await userManager.ChangePasswordAsync(identityuser, customer.Losenord, model.Losenord);
+                    if(!result.Succeeded)
                     {
-                        Services.Services.Instance.SaveUser(user);
-                        await signInManager.SignInAsync(iuser, isPersistent: false);
-
-                        var res = await signInManager.PasswordSignInAsync(user.AnvandarNamn, user.Losenord, false, false);
-
-                        if (res.Succeeded)
-                        {
-                            var model = new LoginViewModel();
-                            model.Username = user.AnvandarNamn;
-                            model.Password = user.Losenord;
-
-                            ModelState.Clear();
-                            return RedirectToAction("ChangeInformationConfirmation");
-                        }
-                        var c = Services.Services.Instance.GetById(id);
-                        return View(nameof(Update), c);
+                        return View(nameof(Update), customer);
                     }
+
+                    await signInManager.RefreshSignInAsync(identityuser);
+                    Services.Services.Instance.UpdateUser(model, id, Request, Response);
+                    return RedirectToAction("index", "home");
+
+
             }
-            
+            else
+            {
+                    Services.Services.Instance.UpdateUser(model, id, Request, Response);
 
-            var customer = Services.Services.Instance.GetById(id);
-            return View(nameof(Update), customer);
+                    return RedirectToAction("index", "home");
 
+            }
         }
         else if (ModelState.IsValid && valid == false)
         {
             ViewBag.Message = "Användarnamn Upptaget";
-            var customer = Services.Services.Instance.GetById(id);
+            customer = Services.Services.Instance.GetInloggedCustomerInfo(Request);
             return View(nameof(Update), customer);
         }
-        else
-        {
+        
             return View(nameof(Update));
+        
         }
-        }
-        public async Task<IActionResult> changeInformationConfirmation()
-        {
-            var customer = Services.Services.Instance.GetInloggedCustomerInfo(Request);
-            if (ModelState.IsValid)
-            {
-                var result = await signInManager.PasswordSignInAsync(customer.AnvandarNamn, customer.Namn,
-                                           false, false);
-
-                if (result.Succeeded)
-                {
-                    var model = new LoginViewModel();
-                    model.Username = customer.AnvandarNamn;
-                    model.Password = customer.Namn;
-                    Services.Services.Instance.SetCustomerCache(model, Request, Response);
-                    return RedirectToAction("index", "home");
-                }
-            }
-            ViewBag.Error = "Inloggning Misslyckades";
-            return View("Login");
-
-        }
-
-
-
-
-
     }
 }
